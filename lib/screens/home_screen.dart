@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_json_parse/json/complex_data.dart';
+import 'package:flutter_json_parse/json/complex_film.dart';
+import 'package:flutter_json_parse/json/film.dart';
 import 'package:flutter_json_parse/json/json.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -30,6 +32,26 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    allMovies();
+  }
+
+  Future allMovies() async {
+    String movie =
+        '{ "succes" : 1, "films" :[ { "film_id" : 1, "film_name": "Interstellar", "category":{ "category_id" : 1, "category_name" : "Science fiction" },"director":{ "director_id" : 1,"director_name":"Christopher Nola"} } ] }';
+    var jsonData = json.decode(movie);
+
+    ComplexFilm complexFilm = ComplexFilm.fromJson(jsonData);
+
+    List<Films> films = complexFilm.filmList;
+    int success = complexFilm.success;
+
+    for (Films f in films) {
+      print("**********");
+      print("film id = ${f.film_id}");
+      print("film name = ${f.film_name}");
+      print("film category name = ${f.category.category_name}");
+      print("film director name = ${f.director.director_name}");
+    }
   }
 
   @override
